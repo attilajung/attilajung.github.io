@@ -227,7 +227,7 @@
 
 <div class="header">
   <h1>M(A₃) — Found Members</h1>
-  <p class="subtitle">Posets that minimally rainbow force A₃ · hover to trace · click for details · skip-layer covers dashed</p>
+  <p class="subtitle">Posets that minimally rainbow force A₃ · hover to trace · click for details · skip-layer Hasse covers dashed</p>
   <div class="stats">
     <div>Total <span id="stat-total">—</span></div>
     <div>Showing <span id="stat-showing">—</span></div>
@@ -260,7 +260,7 @@
   <div class="legend-item"><div class="legend-dot" style="background:var(--l4)"></div> Rank 4</div>
   <div class="legend-item legend-dash">
     <svg width="22" height="2"><line x1="0" y1="1" x2="22" y2="1" stroke="#4a4870" stroke-width="1.5" stroke-dasharray="4 3"/></svg>
-    &nbsp;skip-layer cover
+    &nbsp;skip-layer Hasse cover
   </div>
 </div>
 
@@ -852,9 +852,6 @@ function buildGrid() {
         <span class="layer-label">L${li}:${layer.length}</span>`;
       ftr.appendChild(pill);
     });
-    const src = document.createElement('span'); src.className='card-source';
-    src.textContent = poset.source.replace('unified_search','search').replace('member#','m');
-    ftr.appendChild(src);
     card.appendChild(ftr);
 
     // Click to open modal
@@ -886,7 +883,7 @@ function openModal(poset) {
     <div class="info-item"><div class="label">height</div><div class="value">${poset.height}</div></div>
     <div class="info-item"><div class="label">width</div><div class="value">${poset.width}</div></div>
     <div class="info-item"><div class="label">comp edges</div><div class="value">${poset.comp_edges.length}</div></div>
-    <div class="info-item"><div class="label">covers</div><div class="value">${poset.covers.length}</div></div>
+    <div class="info-item"><div class="label">Hasse covers</div><div class="value">${poset.covers.length}</div></div>
     <div class="info-item"><div class="label">A₃s</div><div class="value">${antichains3.length}</div></div>
   `;
 
