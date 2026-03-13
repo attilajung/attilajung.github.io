@@ -2534,3 +2534,2539 @@
 </body>
 
 </html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M(A₃) — Found Members</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #08080c;
+      --card: #100f18;
+      --card2: #13121e;
+      --border: #1c1b2e;
+      --border2: #252438;
+      --text: #e8eaf0;
+      --muted: #4a4870;
+      --muted2: #6b6890;
+      --accent: #7c6fff;
+      --accent2: #a78bfa;
+      /* layer colors (up to 7 layers) */
+      --l0: #fb7185;
+      --l1: #a78bfa;
+      --l2: #4ade80;
+      --l3: #38bdf8;
+      --l4: #fb923c;
+      --l5: #f472b6;
+      --l6: #facc15;
+    }
+
+    html {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 36px 20px 60px;
+    }
+
+    /* ── Header ── */
+    .header {
+      max-width: 1100px;
+      margin: 0 auto 28px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .header .subtitle {
+      font-size: 11.5px;
+      color: var(--muted2);
+      margin-top: 5px;
+    }
+
+    .header .stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--muted2);
+    }
+
+    .header .stat span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── Controls ── */
+    .controls {
+      max-width: 1100px;
+      margin: 0 auto 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .filter-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted2);
+      border-radius: 5px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .controls-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      max-width: 1100px;
+      margin: 0 auto 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: fit-content;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--muted2);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-dash {
+      display: flex;
+      align-items: center;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      padding: 12px 16px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-meta {
+      font-size: 10px;
+      color: var(--muted2);
+    }
+
+    .card-diagram {
+      display: flex;
+      justify-content: center;
+      padding: 2px 0 0;
+    }
+
+    .card-footer {
+      padding: 8px 16px 11px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+    }
+
+    .layer-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .layer-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .layer-label {
+      font-size: 9.5px;
+      color: var(--muted);
+    }
+
+    .card-source {
+      font-size: 9px;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      max-width: 1100px;
+      margin: 40px auto;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 60px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card2);
+      border: 1px solid var(--border2);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 720px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalIn 0.18s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .modal-header {
+      padding: 18px 22px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--card2);
+      z-index: 1;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .modal-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted2);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      transition: all 0.15s;
+    }
+
+    .modal-close:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 20px 22px 24px;
+    }
+
+    .modal-section {
+      margin-bottom: 22px;
+    }
+
+    .modal-section h3 {
+      font-size: 11px;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .modal-diagram {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+
+    /* Tabs */
+    .modal-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .modal-tab {
+      background: none;
+      border: none;
+      color: var(--muted2);
+      font-size: 11px;
+      font-family: inherit;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 10px 14px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      margin-bottom: -1px;
+    }
+
+    .modal-tab:hover {
+      color: var(--text);
+    }
+
+    .modal-tab.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeTab 0.2s ease;
+    }
+
+    @keyframes fadeTab {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .info-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .info-item .label {
+      font-size: 9.5px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .info-item .value {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Coloring section */
+    .coloring-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+
+    .coloring-palette-strip {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .coloring-swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all .15s;
+      position: relative;
+    }
+
+    .coloring-swatch:hover {
+      transform: scale(1.18);
+    }
+
+    .coloring-swatch.active-swatch {
+      border-color: #fff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+    }
+
+    .coloring-reset-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all .15s;
+      margin-left: 6px;
+    }
+
+    .coloring-reset-btn:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .coloring-note {
+      font-size: 10px;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .rainbow-list {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .rainbow-triple {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all .2s;
+      cursor: pointer;
+    }
+
+    .rainbow-triple:hover {
+      border-color: var(--border2);
+    }
+
+    .rainbow-triple.is-rainbow {
+      border-color: var(--l2);
+      color: var(--l2);
+      background: rgba(74, 222, 128, 0.06);
+    }
+
+    .rainbow-triple.is-rainbow:hover {
+      background: rgba(74, 222, 128, 0.14);
+    }
+
+    .coloring-instruction {
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    @keyframes rainbow-pulse {
+
+      0%,
+      100% {
+        stroke-width: 3.5px;
+        filter: drop-shadow(0 0 3px currentColor);
+      }
+
+      50% {
+        stroke-width: 5px;
+        filter: drop-shadow(0 0 8px currentColor);
+      }
+    }
+
+    .rainbow-highlight-node {
+      animation: rainbow-pulse 1s ease-in-out infinite;
+    }
+
+    .edge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--muted2);
+      max-height: 90px;
+      overflow-y: auto;
+    }
+
+    .edge-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ── Builder Card ── */
+    .builder-card {
+      background: linear-gradient(135deg, var(--card) 0%, #12102a 100%);
+      border: 1.5px dashed var(--border2);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      padding: 28px 20px;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .builder-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(124, 111, 255, 0.13);
+    }
+
+    .builder-card-icon {
+      width: 52px;
+      height: 52px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--accent);
+      transition: all 0.2s;
+      line-height: 1;
+    }
+
+    .builder-card:hover .builder-card-icon {
+      background: rgba(124, 111, 255, 0.12);
+    }
+
+    .builder-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .builder-card-sub {
+      font-size: 10.5px;
+      color: var(--muted2);
+      line-height: 1.6;
+    }
+
+    /* ── Builder Modal ── */
+    .builder-instructions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .builder-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .builder-tool {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted2);
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .builder-tool:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .builder-tool.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .builder-instruction-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .builder-key {
+      background: var(--card2);
+      border: 1px solid var(--border2);
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 9px;
+      color: var(--muted2);
+      white-space: nowrap;
+    }
+
+    .builder-canvas-wrap {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .builder-stats {
+      margin-top: 12px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .builder-stats strong {
+      color: var(--text);
+    }
+
+    .builder-selected-hint {
+      font-size: 10px;
+      color: var(--accent2);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    .builder-selected-hint {
+      animation: blink 1.2s ease-in-out infinite;
+    }
+
+    .builder-cycle-warning {
+      font-size: 10px;
+      color: #fb7185;
+    }
+
+    .builder-analysis {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 10px;
+      color: var(--muted2);
+      line-height: 1.5;
+    }
+
+    .builder-analysis strong {
+      color: var(--text);
+    }
+
+    .builder-analysis-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .builder-badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 10px;
+      border: 1px solid var(--border2);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .builder-badge.good {
+      color: var(--l2);
+      border-color: rgba(74, 222, 128, 0.35);
+      background: rgba(74, 222, 128, 0.08);
+    }
+
+    .builder-badge.bad {
+      color: #fb7185;
+      border-color: rgba(251, 113, 133, 0.35);
+      background: rgba(251, 113, 133, 0.08);
+    }
+
+    .builder-badge.neutral {
+      color: var(--muted2);
+    }
+
+    .builder-edge-list {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-size: 10px;
+      color: var(--muted2);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .builder-edge-list strong {
+      color: var(--text);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>M(A₃) — Found Members</h1>
+    <p class="subtitle">Posets that minimally rainbow force A₃ · hover to trace · click for analysis · skip-layer Hasse
+      covers dashed</p>
+    <div class="stats">
+      <div>Total <span id="stat-total">—</span></div>
+      <div>Showing <span id="stat-showing">—</span></div>
+    </div>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="filter-group">
+      <span class="filter-label">Size</span>
+      <button class="filter-btn active" data-filter="size" data-val="all">all</button>
+    </div>
+    <div class="controls-divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">Height</span>
+      <button class="filter-btn active" data-filter="height" data-val="all">all</button>
+    </div>
+    <div class="controls-divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">Width</span>
+      <button class="filter-btn active" data-filter="width" data-val="all">all</button>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty hidden" id="empty">No posets match the current filters.</div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-title">Poset #—</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="modal-close hidden" id="modal-edit-builder-btn">↺ edit this poset</button>
+          <button class="modal-close" id="modal-close">✕ close</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-tabs">
+          <button class="modal-tab active" data-tab="base">Base Poset</button>
+          <button class="modal-tab" data-tab="coloring">Coloring Explorer</button>
+          <button class="modal-tab" data-tab="minimality">Minimality Explorer</button>
+        </div>
+
+        <div class="tab-content active" id="tab-base">
+          <div class="modal-section">
+            <div class="modal-diagram" id="modal-diagram"></div>
+          </div>
+          <div class="modal-section">
+            <h3>Properties</h3>
+            <div class="info-grid" id="modal-info"></div>
+          </div>
+      </div>
+
+        <div class="tab-content" id="tab-coloring">
+          <div class="modal-section">
+            <p class="coloring-instruction" id="coloring-instruction"></p>
+            <div class="coloring-controls" id="coloring-controls"></div>
+            <div class="modal-diagram" id="modal-coloring-diagram"></div>
+            <div style="margin-top:12px">
+              <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">
+                Antichains of size 3 — <span style="color:var(--l2)">■</span> = rainbow under current coloring:
+              </div>
+              <div class="rainbow-list" id="rainbow-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-minimality">
+          <div class="modal-section">
+            <p class="coloring-instruction" id="minimality-instruction"></p>
+            <div class="coloring-controls" id="minimality-controls"></div>
+            <div class="modal-diagram" id="modal-minimality-diagram"></div>
+            <div style="margin-top:12px">
+              <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">
+                Antichains of size 3 — Remains after removal, <span
+                  style="color:var(--muted);text-decoration:line-through;">dimmed</span> = removed:
+              </div>
+              <div class="rainbow-list" id="minimality-rainbow-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-section" style="border-top:1px solid var(--border); padding-top:20px;">
+          <h3>Comparability edges (<span id="modal-edge-count">—</span>)</h3>
+          <div class="edge-list" id="modal-edges"></div>
+        </div>
+        <div class="modal-section">
+          <h3>Hasse cover relations (<span id="modal-cover-count">—</span>)</h3>
+          <div class="edge-list" id="modal-covers"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Builder Modal -->
+  <div class="modal-overlay" id="builder-overlay">
+    <div class="modal" style="max-width:740px;" id="builder-modal">
+      <div class="modal-header">
+        <span class="modal-title">make your own poset</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="modal-close" id="builder-auto-layout-btn">⊞ auto-layout</button>
+          <button class="modal-close" id="builder-clear-btn">clear</button>
+          <button class="modal-close" id="builder-close">✕ close</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="builder-toolbar" id="builder-toolbar">
+          <button class="builder-tool active" data-builder-mode="add">+ add nodes</button>
+          <button class="builder-tool" data-builder-mode="cover">↕ connect covers</button>
+          <button class="builder-tool" data-builder-mode="move">✥ move nodes</button>
+          <button class="builder-tool" id="builder-delete-btn">delete selected</button>
+          <button class="builder-tool" id="builder-undo-btn">undo</button>
+        </div>
+        <div class="builder-instructions">
+          <span class="builder-instruction-item"><span class="builder-key">add mode</span> click canvas to place nodes</span>
+          <span class="builder-instruction-item"><span class="builder-key">cover mode</span> click upper node, then lower node</span>
+          <span class="builder-instruction-item"><span class="builder-key">move mode</span> drag nodes into place</span>
+          <span class="builder-instruction-item"><span class="builder-key">dbl-click</span> delete node anytime</span>
+        </div>
+        <div class="builder-canvas-wrap" id="builder-canvas-wrap">
+          <svg id="builder-svg" width="676" height="390" style="display:block;cursor:crosshair;"></svg>
+        </div>
+        <div class="builder-stats">
+          <span>Nodes: <strong id="builder-stat-nodes">0</strong></span>
+          <span>Covers: <strong id="builder-stat-covers">0</strong></span>
+          <span>Height: <strong id="builder-stat-height">—</strong></span>
+          <span>Width: <strong id="builder-stat-width">—</strong></span>
+          <span id="builder-selected-hint" style="display:none;" class="builder-selected-hint"></span>
+          <span id="builder-cycle-warning" style="display:none;" class="builder-cycle-warning">⚠ would create a cycle — not added</span>
+          <button class="coloring-reset-btn" id="builder-analyze-btn" style="margin-left:auto;">✓ analyze this poset</button>
+        </div>
+        <div class="builder-analysis" id="builder-analysis"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="db_data.js"></script>
+  <script>
+    // ── Constants ──────────────────────────────────────────────
+    const LAYER_COLORS = ['#fb7185', '#a78bfa', '#4ade80', '#38bdf8', '#fb923c', '#f472b6', '#facc15'];
+    const EDGE_COLOR = '#71717a'; // Change from #252438 to a lighter zinc/silver
+    const EDGE_HOVER = '#e2e8f0'; // Brighter white-blue for hover states
+    const COLORING_PALETTE = [
+      '#fb7185', '#4ade80', '#38bdf8', '#fbbf24', '#a78bfa', '#f97316', '#2dd4bf', '#e879f9'
+    ];
+    const layerColor = i => LAYER_COLORS[i % LAYER_COLORS.length];
+
+    // ── Geometry helpers ────────────────────────────────────────
+    function minimizeCrossings(layers, covers) {
+      layers = layers.map(l => [...l]);
+      const adjDown = {}, adjUp = {};
+      for (const [a, b] of covers) {
+        (adjDown[a] = adjDown[a] || []).push(b);
+        (adjUp[b] = adjUp[b] || []).push(a);
+      }
+      for (let iter = 0; iter < 24; iter++) {
+        for (let i = 0; i < layers.length - 1; i++) {
+          const pm = {}; layers[i].forEach((n, idx) => pm[n] = idx);
+          layers[i + 1].sort((a, b) => {
+            const nA = (adjUp[a] || []).filter(n => pm[n] !== undefined);
+            const nB = (adjUp[b] || []).filter(n => pm[n] !== undefined);
+            const bA = nA.length ? nA.reduce((s, n) => s + pm[n], 0) / nA.length : 999;
+            const bB = nB.length ? nB.reduce((s, n) => s + pm[n], 0) / nB.length : 999;
+            return bA - bB;
+          });
+        }
+        for (let i = layers.length - 1; i > 0; i--) {
+          const pm = {}; layers[i].forEach((n, idx) => pm[n] = idx);
+          layers[i - 1].sort((a, b) => {
+            const nA = (adjDown[a] || []).filter(n => pm[n] !== undefined);
+            const nB = (adjDown[b] || []).filter(n => pm[n] !== undefined);
+            const bA = nA.length ? nA.reduce((s, n) => s + pm[n], 0) / nA.length : 999;
+            const bB = nB.length ? nB.reduce((s, n) => s + pm[n], 0) / nB.length : 999;
+            return bA - bB;
+          });
+        }
+      }
+      return layers;
+    }
+
+    function getPositionsMultiComp(compLayers, covers, W, H, padX = 36, padTop = 34, padBot = 30) {
+      // compLayers: array of components, each component is an array of layers (arrays of node ids)
+      // Lay out components side by side. Y is based on shared rank scale:
+      //   rank 0 = bottom (y = H - padBot), tallest chain spans full height.
+      // Each component gets a horizontal region proportional to its max-layer-width.
+
+      const numComps = compLayers.length;
+      if (numComps === 0) return {};
+
+      // Max rank across all components (determines total height scale)
+      const maxRank = Math.max(...compLayers.map(g => g.length - 1));
+
+      // Give each component a "weight" = max nodes in any of its layers (at least 1)
+      const weights = compLayers.map(g => Math.max(...g.map(l => l.length), 1));
+      const totalWeight = weights.reduce((a, b) => a + b, 0);
+
+      const usableW = W - padX * 2;
+      const usableH = H - padTop - padBot;
+
+      const pos = {};
+      const rankLayerInfo = {}; // node -> {rank, localLayerIdx, compIdx}
+
+      // Also run crossing minimization per component
+      const adjDown = {}, adjUp = {};
+      for (const [a, b] of covers) {
+        (adjDown[a] = adjDown[a] || []).push(b);
+        (adjUp[b] = adjUp[b] || []).push(a);
+      }
+
+      let xStart = padX;
+      compLayers.forEach((compGroup, ci) => {
+        const compW = (weights[ci] / totalWeight) * usableW;
+        const numLayers = compGroup.length;
+
+        // Barycenter crossing minimization within this component
+        const optGroup = compGroup.map(l => [...l]);
+        for (let iter = 0; iter < 20; iter++) {
+          for (let li = 0; li < optGroup.length - 1; li++) {
+            const pm = {}; optGroup[li].forEach((n, idx) => pm[n] = idx);
+            optGroup[li + 1].sort((a, b) => {
+              const nA = (adjUp[a] || []).filter(n => pm[n] !== undefined);
+              const nB = (adjUp[b] || []).filter(n => pm[n] !== undefined);
+              const bA = nA.length ? nA.reduce((s, n) => s + pm[n], 0) / nA.length : 999;
+              const bB = nB.length ? nB.reduce((s, n) => s + pm[n], 0) / nB.length : 999;
+              return bA - bB;
+            });
+          }
+          for (let li = optGroup.length - 1; li > 0; li--) {
+            const pm = {}; optGroup[li].forEach((n, idx) => pm[n] = idx);
+            optGroup[li - 1].sort((a, b) => {
+              const nA = (adjDown[a] || []).filter(n => pm[n] !== undefined);
+              const nB = (adjDown[b] || []).filter(n => pm[n] !== undefined);
+              const bA = nA.length ? nA.reduce((s, n) => s + pm[n], 0) / nA.length : 999;
+              const bB = nB.length ? nB.reduce((s, n) => s + pm[n], 0) / nB.length : 999;
+              return bA - bB;
+            });
+          }
+        }
+
+        // Assign y: rank 0 (bottom layer of component) maps to bottom of shared scale
+        // Rank maxRank maps to top. Components shorter than maxRank are bottom-aligned.
+        optGroup.forEach((layer, li) => {
+          // li=0 is the bottom (minimal elements), li=numLayers-1 is the top
+          // Global rank for this layer within this component:
+          const globalRank = li; // local rank within component
+          // Bottom-align: the BOTTOM of this component aligns with rank 0 globally
+          // y decreases as rank increases (higher rank = higher on screen = smaller y)
+          const y = maxRank === 0
+            ? padTop + usableH / 2
+            : (H - padBot) - (globalRank / maxRank) * usableH;
+
+          layer.forEach((node, ni) => {
+            const x = xStart + ((ni + 0.5) / layer.length) * compW;
+            pos[node] = { x, y, layer: globalRank, compIdx: ci };
+          });
+        });
+
+        xStart += compW;
+      });
+
+      return pos;
+    }
+
+    function nodeLayerMap(layers) {
+      const m = {};
+      layers.forEach((l, li) => l.forEach(n => m[n] = li));
+      return m;
+    }
+
+    function edgePath(a, b, pos, layers, nlMap, r) {
+      const pa = pos[a], pb = pos[b];
+      if (!pa || !pb) return null;
+      const span = Math.abs(nlMap[a] - nlMap[b]);
+      if (span <= 1) return `M${pa.x} ${pa.y} L${pb.x} ${pb.y}`;
+      const mx = (pa.x + pb.x) / 2, my = (pa.y + pb.y) / 2;
+      const minL = Math.min(nlMap[a], nlMap[b]) + 1, maxL = Math.max(nlMap[a], nlMap[b]);
+      let nearDist = Infinity, nearX = mx;
+      for (let l = minL; l < maxL; l++) {
+        for (const node of layers[l]) {
+          const mp = pos[node];
+          const dx = pb.x - pa.x, dy = pb.y - pa.y;
+          const t = ((mp.y - pa.y) * dy + (mp.x - pa.x) * dx) / (dy * dy + dx * dx);
+          if (t < 0.1 || t > 0.9) continue;
+          const dist = Math.abs(mp.x - (pa.x + t * dx));
+          if (dist < r + 8 && dist < nearDist) { nearDist = dist; nearX = mp.x; }
+        }
+      }
+      if (nearDist < r + 8) {
+        const offset = (nearX <= mx) ? (r + 22) : -(r + 22);
+        return `M${pa.x} ${pa.y} Q${mx + offset} ${my} ${pb.x} ${pb.y}`;
+      }
+      const offset = (pa.x < pb.x) ? -10 : 10;
+      return `M${pa.x} ${pa.y} Q${mx + offset} ${my} ${pb.x} ${pb.y}`;
+    }
+
+    // ── SVG Hasse Diagram Builder ────────────────────────────────
+    function buildHasseSVG(poset, W, H, opts = {}) {
+      const { interactive = false, coloring = null, onNodeClick = null, highlightNodes = null, fadedNodes = null } = opts;
+      const r = opts.r || (W < 320 ? 13 : 15);
+
+      // Use comp_layers for position computation (handles disconnected components correctly)
+      const compLayers = poset.comp_layers || [poset.layers];
+      const pos = getPositionsMultiComp(compLayers, poset.covers, W, H);
+
+      // Build a flat layers list (for edge-path collision detection)
+      const maxRank = Math.max(...Object.values(pos).map(p => p.layer), 0);
+      const flatLayers = [];
+      for (let r2 = 0; r2 <= maxRank; r2++) {
+        flatLayers.push(Object.keys(pos).filter(n => pos[n].layer === r2).map(Number));
+      }
+      const nlMap = {};
+      Object.entries(pos).forEach(([n, p]) => nlMap[parseInt(n)] = p.layer);
+
+      const id = `p${poset.id}_${W}_${interactive ? 'i' : 's'}_${Date.now()}`;
+      const ns = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('width', W); svg.setAttribute('height', H);
+      svg.style.display = 'block';
+
+      // Defs for glow gradients (one per rank level + per coloring color)
+      const defs = document.createElementNS(ns, 'defs');
+      flatLayers.forEach((_, li) => {
+        const grad = document.createElementNS(ns, 'radialGradient');
+        grad.setAttribute('id', `${id}-g${li}`);
+        grad.setAttribute('cx', '50%'); grad.setAttribute('cy', '50%'); grad.setAttribute('r', '50%');
+        const s1 = document.createElementNS(ns, 'stop');
+        s1.setAttribute('offset', '0%'); s1.setAttribute('stop-color', layerColor(li));
+        s1.setAttribute('stop-opacity', '0.28');
+        const s2 = document.createElementNS(ns, 'stop');
+        s2.setAttribute('offset', '100%'); s2.setAttribute('stop-color', layerColor(li));
+        s2.setAttribute('stop-opacity', '0');
+        grad.appendChild(s1); grad.appendChild(s2);
+        defs.appendChild(grad);
+      });
+      // Coloring-color glow gradients
+      COLORING_PALETTE.forEach((palCol, ci) => {
+        const grad = document.createElementNS(ns, 'radialGradient');
+        grad.setAttribute('id', `${id}-cg${ci}`);
+        grad.setAttribute('cx', '50%'); grad.setAttribute('cy', '50%'); grad.setAttribute('r', '50%');
+        const s1 = document.createElementNS(ns, 'stop');
+        s1.setAttribute('offset', '0%'); s1.setAttribute('stop-color', palCol);
+        s1.setAttribute('stop-opacity', '0.35');
+        const s2 = document.createElementNS(ns, 'stop');
+        s2.setAttribute('offset', '100%'); s2.setAttribute('stop-color', palCol);
+        s2.setAttribute('stop-opacity', '0');
+        grad.appendChild(s1); grad.appendChild(s2);
+        defs.appendChild(grad);
+      });
+      svg.appendChild(defs);
+
+      // Build edge paths
+      const edgePaths = poset.covers.map(([a, b]) => ({
+        a, b,
+        path: edgePath(a, b, pos, flatLayers, nlMap, r),
+        isLong: Math.abs(nlMap[a] - nlMap[b]) > 1
+      }));
+
+      // Track hovers
+      let hoveredNode = null;
+      const nodeElems = {};
+      const edgeElems = {};
+      const hlSet = highlightNodes ? new Set(highlightNodes) : null;
+
+      function updateHover() {
+        const hovSet = new Set();
+        if (hoveredNode !== null) {
+          edgePaths.forEach(({ a, b }) => { if (a === hoveredNode || b === hoveredNode) hovSet.add(`${a}-${b}`); });
+        }
+        edgePaths.forEach(({ a, b }) => {
+          const key = `${a}-${b}`;
+          const el = edgeElems[key]; if (!el) return;
+          const active = hovSet.has(key);
+          const dim = hoveredNode !== null && !active;
+          el.setAttribute('stroke', active ? EDGE_HOVER : EDGE_COLOR);
+          el.setAttribute('stroke-width', active ? 2.5 : 1.2);
+          el.setAttribute('stroke-opacity', dim ? 0.07 : (active ? 1 : 0.6));
+        });
+        Object.entries(nodeElems).forEach(([n, { glow, circle }]) => {
+          const ni = parseInt(n);
+          const active = ni === hoveredNode;
+          const connected = [...hovSet].some(k => { const [a, b] = k.split('-').map(Number); return a === ni || b === ni; });
+          const dim = hoveredNode !== null && !active && !connected;
+          glow.setAttribute('opacity', active ? '1' : '0');
+          circle.setAttribute('r', active ? r + 2.5 : r);
+          circle.setAttribute('stroke-width', active ? 2.5 : 1.5);
+          glow.parentElement.setAttribute('opacity', dim ? '0.12' : '1');
+        });
+      }
+
+      // Draw edges
+      ['short', 'long'].forEach(pass => {
+        edgePaths.forEach(({ a, b, path, isLong }) => {
+          if ((pass === 'short') === isLong) return;
+          if (!path) return;
+          // Fade out edges connected to faded nodes
+          const isFaded = fadedNodes && (fadedNodes.has(a) || fadedNodes.has(b));
+          if (isFaded) return; // Don't even draw edges for removed nodes, or we could draw them very faint. Let's just drop them.
+
+          const el = document.createElementNS(ns, 'path');
+          el.setAttribute('d', path);
+          el.setAttribute('fill', 'none');
+          el.setAttribute('stroke', EDGE_COLOR);
+          el.setAttribute('stroke-width', '1.2');
+          el.setAttribute('stroke-opacity', '0.6');
+          if (isLong) el.setAttribute('stroke-dasharray', '4 3');
+          el.style.transition = 'all 0.12s ease';
+          edgeElems[`${a}-${b}`] = el;
+          svg.appendChild(el);
+        });
+      });
+
+      // Draw nodes
+      Object.entries(pos).forEach(([node, p]) => {
+        const ni = parseInt(node);
+        const li = p.layer;
+        let col;
+        if (coloring && coloring[ni] !== -1) {
+          col = COLORING_PALETTE[coloring[ni] % COLORING_PALETTE.length];
+        } else if (coloring && coloring[ni] === -1) {
+          col = '#555'; // uncolored
+        } else {
+          col = layerColor(li);
+        }
+
+        const isFaded = fadedNodes && fadedNodes.has(ni);
+
+        const g = document.createElementNS(ns, 'g');
+        g.style.cursor = (interactive || onNodeClick) ? 'pointer' : 'default';
+        g.setAttribute('opacity', isFaded ? '0.1' : '1');
+
+        const glow = document.createElementNS(ns, 'circle');
+        glow.setAttribute('cx', p.x); glow.setAttribute('cy', p.y);
+        glow.setAttribute('r', r + 14);
+        if (coloring && coloring[ni] !== -1) {
+          glow.setAttribute('fill', `url(#${id}-cg${coloring[ni] % COLORING_PALETTE.length})`);
+        } else {
+          glow.setAttribute('fill', `url(#${id}-g${li})`);
+        }
+        glow.setAttribute('opacity', (hlSet && hlSet.has(ni)) ? '1' : '0');
+        g.appendChild(glow);
+
+        const circle = document.createElementNS(ns, 'circle');
+        circle.setAttribute('cx', p.x); circle.setAttribute('cy', p.y);
+        circle.setAttribute('r', r);
+        circle.setAttribute('fill', '#08080c');
+        circle.setAttribute('stroke', col);
+        circle.setAttribute('stroke-width', (hlSet && hlSet.has(ni)) ? '3' : '1.5');
+        circle.style.transition = 'all 0.12s ease';
+        if (hlSet && hlSet.has(ni)) {
+          circle.classList.add('rainbow-highlight-node');
+          circle.style.color = col;
+        }
+        g.appendChild(circle);
+
+        const text = document.createElementNS(ns, 'text');
+        text.setAttribute('x', p.x); text.setAttribute('y', p.y);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'central');
+        text.setAttribute('fill', col);
+        text.setAttribute('font-size', r < 14 ? '9.5' : '11');
+        text.setAttribute('font-weight', '700');
+        text.setAttribute('font-family', "'JetBrains Mono',monospace");
+        text.style.pointerEvents = 'none'; text.style.userSelect = 'none';
+        text.textContent = node;
+        g.appendChild(text);
+
+        if (interactive) {
+          g.addEventListener('mouseenter', () => { hoveredNode = ni; updateHover(); });
+          g.addEventListener('mouseleave', () => { hoveredNode = null; updateHover(); });
+        }
+        if (onNodeClick) {
+          g.addEventListener('click', (e) => { e.stopPropagation(); onNodeClick(ni); });
+        }
+
+        nodeElems[node] = { glow, circle };
+        svg.appendChild(g);
+      });
+
+      // Skip-layer badge
+      if (edgePaths.some(e => e.isLong)) {
+        const fo = document.createElementNS(ns, 'foreignObject');
+        fo.setAttribute('x', W - 65); fo.setAttribute('y', 4);
+        fo.setAttribute('width', 62); fo.setAttribute('height', 16);
+        fo.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#4a4870;opacity:0.7;white-space:nowrap">┄ skip-layer</div>`;
+        svg.appendChild(fo);
+      }
+
+      return svg;
+    }
+
+    // ── Coloring helpers ────────────────────────────────────────
+    function allAntichains3(n, compEdges) {
+      const comp = Array.from({ length: n }, () => new Array(n).fill(false));
+      compEdges.forEach(([u, v]) => { comp[u][v] = comp[v][u] = true; });
+      const result = [];
+      for (let a = 0; a < n; a++) for (let b = a + 1; b < n; b++) for (let c = b + 1; c < n; c++) {
+        if (!comp[a][b] && !comp[a][c] && !comp[b][c]) result.push([a, b, c]);
+      }
+      return result;
+    }
+
+    function isRainbow(triple, coloring) {
+      const c0 = coloring[triple[0]], c1 = coloring[triple[1]], c2 = coloring[triple[2]];
+      return c0 >= 0 && c1 >= 0 && c2 >= 0 && c0 !== c1 && c1 !== c2 && c0 !== c2;
+    }
+
+    function isProperColoring(n, compEdges, coloring) {
+      for (const [u, v] of compEdges) {
+        if (coloring[u] >= 0 && coloring[v] >= 0 && coloring[u] === coloring[v]) {
+          return { proper: false, conflictEdge: [u, v] };
+        }
+      }
+      return { proper: true, conflictEdge: null };
+    }
+
+    // ── State ───────────────────────────────────────────────────
+    let activeFilters = { size: 'all', height: 'all', width: 'all' };
+    let modalPoset = null;
+    let userColoring = [];       // per-node color index (-1 = uncolored)
+    let activeColorIdx = 0;      // currently selected palette color
+    let highlightedTriple = null; // currently hovered rainbow triple
+
+    // Minimality state
+    let minRemovedNode = -1;
+    let minColoring = null;
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function removedPosetHeight(poset, removedNode) {
+      if (removedNode === -1) return poset.height;
+      const ranks = new Array(poset.size).fill(0);
+      const inDeg = new Array(poset.size).fill(0);
+      const adj = Array.from({ length: poset.size }, () => []);
+      poset.covers.forEach(([a, b]) => {
+        if (a === removedNode || b === removedNode) return;
+        adj[a].push(b);
+        inDeg[b]++;
+      });
+      const q = [];
+      for (let i = 0; i < poset.size; i++) {
+        if (i !== removedNode && inDeg[i] === 0) q.push(i);
+      }
+      while (q.length) {
+        const u = q.shift();
+        adj[u].forEach(v => {
+          ranks[v] = Math.max(ranks[v], ranks[u] + 1);
+          if (--inDeg[v] === 0) q.push(v);
+        });
+      }
+      const kept = ranks.filter((_, i) => i !== removedNode);
+      return kept.length ? Math.max(...kept) + 1 : 0;
+    }
+
+    function findA3FreeColoringWithLimit(n, compEdges, maxColors, removedNode = -1) {
+      const activeNodes = [];
+      const adj = Array.from({ length: n }, () => new Set());
+      compEdges.forEach(([u, v]) => {
+        if (u === removedNode || v === removedNode) return;
+        adj[u].add(v);
+        adj[v].add(u);
+      });
+      for (let i = 0; i < n; i++) if (i !== removedNode) activeNodes.push(i);
+
+      const antichains = allAntichains3(n, compEdges).filter(ac => !ac.includes(removedNode));
+      const antichainsByNode = Array.from({ length: n }, () => []);
+      antichains.forEach(ac => ac.forEach(v => antichainsByNode[v].push(ac)));
+
+      const col = new Array(n).fill(-1);
+
+      function wouldCreateRainbow(u) {
+        for (const ac of antichainsByNode[u]) {
+          if (ac.every(v => col[v] >= 0)) {
+            if (isRainbow(ac, col)) return true;
+          }
+        }
+        return false;
+      }
+
+      function chooseNode() {
+        let bestNode = null;
+        let bestScore = null;
+        for (const u of activeNodes) {
+          if (col[u] !== -1) continue;
+          const neighborColors = new Set();
+          adj[u].forEach(v => { if (col[v] >= 0) neighborColors.add(col[v]); });
+          const score = [
+            neighborColors.size,
+            adj[u].size,
+            antichainsByNode[u].length
+          ];
+          if (!bestScore || score[0] > bestScore[0] || (score[0] === bestScore[0] && score[1] > bestScore[1]) || (score[0] === bestScore[0] && score[1] === bestScore[1] && score[2] > bestScore[2])) {
+            bestNode = u;
+            bestScore = score;
+          }
+        }
+        return bestNode;
+      }
+
+      function search(usedColors) {
+        const u = chooseNode();
+        if (u === null) return true;
+
+        const forbidden = new Set();
+        adj[u].forEach(v => { if (col[v] >= 0) forbidden.add(col[v]); });
+        const limit = Math.min(usedColors + 1, maxColors);
+        for (let c = 0; c < limit; c++) {
+          if (forbidden.has(c)) continue;
+          col[u] = c;
+          const nextUsed = c === usedColors ? usedColors + 1 : usedColors;
+          if (!wouldCreateRainbow(u) && search(nextUsed)) return true;
+          col[u] = -1;
+        }
+        return false;
+      }
+
+      return search(0) ? col.slice() : null;
+    }
+
+    function findA3FreeColoring(n, compEdges, h, removedNode) {
+      for (let maxColors = Math.max(1, h); maxColors <= n; maxColors++) {
+        const witness = findA3FreeColoringWithLimit(n, compEdges, maxColors, removedNode);
+        if (witness) return witness;
+      }
+      return null;
+    }
+
+    function analyzeCustomPoset(poset) {
+      const analysis = {
+        isCustom: true,
+        rainbowForcing: true,
+        witnessColoring: null,
+        minimal: false,
+        removalWitnesses: new Map(),
+        stubbornRemovals: []
+      };
+
+      analysis.witnessColoring = findA3FreeColoring(poset.size, poset.comp_edges, Math.max(1, poset.height), -1);
+      analysis.rainbowForcing = !analysis.witnessColoring;
+
+      if (analysis.rainbowForcing) {
+        analysis.minimal = true;
+        for (let node = 0; node < poset.size; node++) {
+          const witness = findA3FreeColoring(poset.size, poset.comp_edges, Math.max(1, removedPosetHeight(poset, node)), node);
+          if (witness) {
+            analysis.removalWitnesses.set(node, witness);
+          } else {
+            analysis.minimal = false;
+            analysis.stubbornRemovals.push(node);
+          }
+        }
+      }
+
+      return analysis;
+    }
+
+    function getColoringInstructionHtml(poset) {
+      if (!poset || !poset.analysis || !poset.analysis.isCustom) {
+        return 'Click a node to paint it with the selected color. Every proper coloring of the comparability graph must contain a <strong style="color:var(--l2)">rainbow A₃</strong> — three pairwise incomparable elements with distinct colors.';
+      }
+      if (poset.analysis.rainbowForcing) {
+        return 'Click a node to paint it with the selected color. This handmade poset <strong style="color:var(--l2)">is rainbow forcing</strong>, so every full proper coloring should still produce a rainbow A₃.';
+      }
+      return 'Click a node to paint it with the selected color. This handmade poset is <strong style="color:#fb7185">not rainbow forcing</strong>, so the goal here is to inspect or build a proper coloring that avoids rainbow A₃.';
+    }
+
+    function getMinimalityInstructionHtml(poset) {
+      if (!poset || !poset.analysis || !poset.analysis.isCustom) {
+        return 'Click a node to <strong>remove</strong> it. Since the poset minimally rainbow forces A₃, removing any node guarantees there exists a proper coloring of the remaining nodes that contains <strong>no</strong> rainbow A₃.';
+      }
+      if (!poset.analysis.rainbowForcing) {
+        return 'Click a node to <strong>remove</strong> it and test the smaller poset. Minimality is not claimed here, because the current handmade poset already fails to rainbow force A₃.';
+      }
+      if (poset.analysis.minimal) {
+        return 'Click a node to <strong>remove</strong> it. This handmade poset is currently <strong style="color:var(--l2)">minimal</strong>, so every node deletion should admit a proper coloring with no rainbow A₃.';
+      }
+      return 'Click a node to <strong>remove</strong> it. This handmade poset is rainbow forcing but <strong style="color:#fb7185">not minimal</strong>, so some deletions still leave a rainbow-forcing poset.';
+    }
+
+    // ── Filters ─────────────────────────────────────────────────
+    function buildFilters() {
+      const sizes = [...new Set(DB_POSETS.map(p => p.size))].sort((a, b) => a - b);
+      const heights = [...new Set(DB_POSETS.map(p => p.height))].sort((a, b) => a - b);
+      const widths = [...new Set(DB_POSETS.map(p => p.width))].sort((a, b) => a - b);
+
+      const ctrl = document.getElementById('controls');
+      const groups = ctrl.querySelectorAll('.filter-group');
+
+      // Size buttons
+      sizes.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn'; btn.dataset.filter = 'size'; btn.dataset.val = s;
+        btn.textContent = s; groups[0].appendChild(btn);
+      });
+      heights.forEach(h => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn'; btn.dataset.filter = 'height'; btn.dataset.val = h;
+        btn.textContent = 'h=' + h; groups[1].appendChild(btn);
+      });
+      widths.forEach(w => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn'; btn.dataset.filter = 'width'; btn.dataset.val = w;
+        btn.textContent = 'w=' + w; groups[2].appendChild(btn);
+      });
+
+      ctrl.addEventListener('click', e => {
+        if (!e.target.matches('.filter-btn')) return;
+        const { filter, val } = e.target.dataset;
+        activeFilters[filter] = val === activeFilters[filter] ? 'all' : val;
+        ctrl.querySelectorAll(`.filter-btn[data-filter="${filter}"]`).forEach(b => {
+          b.classList.toggle('active', b.dataset.val === activeFilters[filter] ||
+            (activeFilters[filter] === 'all' && b.dataset.val === 'all'));
+        });
+        applyFilters();
+      });
+    }
+
+    function applyFilters() {
+      let count = 0;
+      document.querySelectorAll('.card-wrap').forEach(wrap => {
+        const p = DB_POSETS[+wrap.dataset.idx];
+        const show =
+          (activeFilters.size === 'all' || p.size === +activeFilters.size) &&
+          (activeFilters.height === 'all' || p.height === +activeFilters.height) &&
+          (activeFilters.width === 'all' || p.width === +activeFilters.width);
+        wrap.classList.toggle('hidden', !show);
+        if (show) count++;
+      });
+      document.getElementById('stat-showing').textContent = count;
+      document.getElementById('empty').classList.toggle('hidden', count > 0);
+    }
+
+    // ── Grid ─────────────────────────────────────────────────────
+    function buildGrid() {
+      const grid = document.getElementById('grid');
+
+      // ── "Make your own poset" builder card ──
+      const builderWrap = document.createElement('div');
+      const builderCard = document.createElement('div');
+      builderCard.className = 'builder-card';
+      builderCard.innerHTML = `
+        <div class="builder-card-icon">+</div>
+        <div class="builder-card-title">make your own poset</div>
+        <div class="builder-card-sub">Build a Hasse diagram interactively<br>and explore its coloring properties</div>`;
+      builderCard.addEventListener('click', openBuilder);
+      builderWrap.appendChild(builderCard);
+      grid.appendChild(builderWrap);
+
+      DB_POSETS.forEach((poset, idx) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'card-wrap'; wrap.dataset.idx = idx;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // Header
+        const hdr = document.createElement('div');
+        hdr.className = 'card-header';
+        hdr.innerHTML = `<span class="card-title">Poset #${poset.id}</span>
+      <span class="card-meta">n=${poset.size} · h=${poset.height} · w=${poset.width}</span>`;
+        card.appendChild(hdr);
+
+        // Diagram
+        const diag = document.createElement('div');
+        diag.className = 'card-diagram';
+        const cardH = poset.height >= 7 ? 310 : poset.height >= 6 ? 280 : 230;
+        const svg = buildHasseSVG(poset, 290, cardH, { interactive: true });
+        diag.appendChild(svg);
+        card.appendChild(diag);
+
+        // Footer
+        const ftr = document.createElement('div');
+        ftr.className = 'card-footer';
+        poset.layers.forEach((layer, li) => {
+          const pill = document.createElement('div'); pill.className = 'layer-pill';
+          pill.innerHTML = `<div class="layer-dot" style="background:${layerColor(li)}"></div>
+        <span class="layer-label">L${li}:${layer.length}</span>`;
+          ftr.appendChild(pill);
+        });
+        card.appendChild(ftr);
+
+        // Click to open modal
+        card.addEventListener('click', () => openModal(poset));
+        wrap.appendChild(card);
+        grid.appendChild(wrap);
+      });
+
+      document.getElementById('stat-total').textContent = DB_POSETS.length;
+      document.getElementById('stat-showing').textContent = DB_POSETS.length;
+    }
+
+    // ── Modal ─────────────────────────────────────────────────────
+    function openModal(poset) {
+      modalPoset = poset;
+      activeColorIdx = 0;
+
+      document.getElementById('modal-title').textContent = `Poset #${poset.id} — n=${poset.size}, h=${poset.height}, w=${poset.width}`;
+      document.getElementById('coloring-instruction').innerHTML = getColoringInstructionHtml(poset);
+      document.getElementById('minimality-instruction').innerHTML = getMinimalityInstructionHtml(poset);
+      document.getElementById('modal-edit-builder-btn').classList.toggle(
+        'hidden',
+        !(poset.analysis && poset.analysis.isCustom)
+      );
+
+      // Large diagram
+      const diagEl = document.getElementById('modal-diagram');
+      diagEl.innerHTML = '';
+      diagEl.appendChild(buildHasseSVG(poset, 560, 300, { interactive: true }));
+
+      // Info grid
+      const antichains3 = allAntichains3(poset.size, poset.comp_edges);
+      document.getElementById('modal-info').innerHTML = `
+    <div class="info-item"><div class="label">size</div><div class="value">${poset.size}</div></div>
+    <div class="info-item"><div class="label">height</div><div class="value">${poset.height}</div></div>
+    <div class="info-item"><div class="label">width</div><div class="value">${poset.width}</div></div>
+    <div class="info-item"><div class="label">comp edges</div><div class="value">${poset.comp_edges.length}</div></div>
+    <div class="info-item"><div class="label">Hasse covers</div><div class="value">${poset.covers.length}</div></div>
+    <div class="info-item"><div class="label">A₃s</div><div class="value">${antichains3.length}</div></div>
+  `;
+
+      // Reset to Base tab when opening modal
+      document.querySelectorAll('.modal-tab').forEach(b => b.classList.remove('active'));
+      document.querySelector('.modal-tab[data-tab="base"]').classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-base').classList.add('active');
+
+      // Interactive coloring
+      userColoring = new Array(poset.size).fill(-1);
+      activeColorIdx = 0;
+      highlightedTriple = null;
+
+      // Minimality explorer
+      minRemovedNode = -1;
+      minColoring = null;
+
+      renderColoringSection();
+      renderMinimalitySection();
+
+      // Edges
+      document.getElementById('modal-edge-count').textContent = poset.comp_edges.length;
+      document.getElementById('modal-edges').innerHTML =
+        poset.comp_edges.map(([u, v]) => `<span class="edge-pill">{${u},${v}}</span>`).join('');
+
+      document.getElementById('modal-cover-count').textContent = poset.covers.length;
+      document.getElementById('modal-covers').innerHTML =
+        poset.covers.map(([u, v]) => `<span class="edge-pill">${u}→${v}</span>`).join('');
+
+      document.getElementById('modal-overlay').classList.add('open');
+    }
+
+    function renderColoringSection() {
+      const poset = modalPoset;
+      const coloring = userColoring;
+      const antichains3 = allAntichains3(poset.size, poset.comp_edges);
+      const rainbowTriples = antichains3.filter(ac => isRainbow(ac, coloring));
+      const numRainbow = rainbowTriples.length;
+      const numColored = coloring.filter(c => c >= 0).length;
+      const numColors = new Set(coloring.filter(c => c >= 0)).size;
+      const properness = isProperColoring(poset.size, poset.comp_edges, coloring);
+
+      // Build highlighted nodes set from hovered triple
+      const hlNodes = highlightedTriple || (rainbowTriples.length > 0 ? null : null);
+
+      // Controls: palette strip + reset + status
+      const ctrl = document.getElementById('coloring-controls');
+      ctrl.innerHTML = '';
+
+      const strip = document.createElement('div');
+      strip.className = 'coloring-palette-strip';
+      const palLabel = document.createElement('span');
+      palLabel.style.cssText = 'font-size:10px;color:var(--muted);margin-right:2px;';
+      palLabel.textContent = 'Paint:';
+      strip.appendChild(palLabel);
+
+      COLORING_PALETTE.forEach((palCol, ci) => {
+        const sw = document.createElement('div');
+        sw.className = 'coloring-swatch' + (ci === activeColorIdx ? ' active-swatch' : '');
+        sw.style.background = palCol;
+        sw.title = `Color ${ci + 1}`;
+        sw.onclick = () => { activeColorIdx = ci; renderColoringSection(); };
+        strip.appendChild(sw);
+      });
+      ctrl.appendChild(strip);
+
+      // Eraser
+      const eraserBtn = document.createElement('div');
+      eraserBtn.className = 'coloring-swatch' + (activeColorIdx === -1 ? ' active-swatch' : '');
+      eraserBtn.style.cssText = 'background: #333; display:flex; align-items:center; justify-content:center; font-size:12px; color:#aaa;';
+      eraserBtn.innerHTML = '✕';
+      eraserBtn.title = 'Eraser';
+      eraserBtn.onclick = () => { activeColorIdx = -1; renderColoringSection(); };
+      strip.appendChild(eraserBtn);
+
+      // Reset button
+      const resetBtn = document.createElement('button');
+      resetBtn.className = 'coloring-reset-btn';
+      resetBtn.textContent = 'Reset';
+      resetBtn.onclick = () => {
+        userColoring = new Array(poset.size).fill(-1);
+        highlightedTriple = null;
+        renderColoringSection();
+      };
+      ctrl.appendChild(resetBtn);
+
+      // Status note
+      const note = document.createElement('span');
+      note.className = 'coloring-note';
+      const isCustom = !!(poset.analysis && poset.analysis.isCustom);
+      if (numColored === 0) {
+        note.textContent = 'Click nodes to color them';
+      } else if (!properness.proper) {
+        note.innerHTML = `<span style="color:#fb7185">⚠ Improper:</span> nodes ${properness.conflictEdge[0]},${properness.conflictEdge[1]} share a color`;
+      } else {
+        note.textContent = `${numColors} color${numColors !== 1 ? 's' : ''} · ${numRainbow} rainbow A₃${numRainbow !== 1 ? 's' : ''}`;
+        if (numColored === poset.size && numRainbow > 0) {
+          note.innerHTML = `<span style="color:var(--l2)">✓ Rainbow A₃ found!</span> ${numRainbow} triple${numRainbow !== 1 ? 's' : ''}  · ${numColors} color${numColors !== 1 ? 's' : ''}`;
+        } else if (isCustom && numColored === poset.size && numRainbow === 0) {
+          note.innerHTML = `<span style="color:#fb7185">A₃-free witness found.</span> This full proper coloring shows the handmade poset is not rainbow forcing.`;
+        }
+      }
+      ctrl.appendChild(note);
+
+      if (isCustom && poset.analysis.witnessColoring) {
+        const witnessBtn = document.createElement('button');
+        witnessBtn.className = 'coloring-reset-btn';
+        witnessBtn.textContent = 'Load A₃-free witness';
+        witnessBtn.onclick = () => {
+          userColoring = poset.analysis.witnessColoring.slice();
+          highlightedTriple = null;
+          renderColoringSection();
+        };
+        ctrl.appendChild(witnessBtn);
+      }
+
+      // Diagram with coloring and click-to-paint
+      const diagEl = document.getElementById('modal-coloring-diagram');
+      diagEl.innerHTML = '';
+      diagEl.appendChild(buildHasseSVG(poset, 560, 280, {
+        interactive: false,
+        coloring,
+        highlightNodes: hlNodes,
+        onNodeClick(ni) {
+          if (activeColorIdx === -1) {
+            userColoring[ni] = -1;
+          } else {
+            userColoring[ni] = activeColorIdx;
+          }
+          highlightedTriple = null;
+          renderColoringSection();
+        }
+      }));
+
+      // Rainbow list
+      const list = document.getElementById('rainbow-list');
+      list.innerHTML = '';
+      if (antichains3.length === 0) {
+        list.innerHTML = '<span style="font-size:10px;color:var(--muted)">No antichain of size 3 (width < 3)</span>';
+      } else {
+        antichains3.forEach(ac => {
+          const span = document.createElement('span');
+          const rainbow = isRainbow(ac, coloring);
+          span.className = 'rainbow-triple' + (rainbow ? ' is-rainbow' : '');
+          const acColors = ac.map(v => coloring[v] >= 0 ? COLORING_PALETTE[coloring[v] % COLORING_PALETTE.length] : '#555');
+          span.innerHTML = `{<span style="color:${acColors[0]}">${ac[0]}</span>,<span style="color:${acColors[1]}">${ac[1]}</span>,<span style="color:${acColors[2]}">${ac[2]}</span>}`;
+          // Hover to highlight nodes
+          span.addEventListener('mouseenter', () => {
+            highlightedTriple = ac;
+            renderColoringSection();
+          });
+          span.addEventListener('mouseleave', () => {
+            highlightedTriple = null;
+            renderColoringSection();
+          });
+          list.appendChild(span);
+        });
+      }
+    }
+
+    function renderMinimalitySection() {
+      const poset = modalPoset;
+      const ctrl = document.getElementById('minimality-controls');
+      const diagEl = document.getElementById('modal-minimality-diagram');
+
+      let noteHtml = '';
+      if (minRemovedNode === -1) {
+        noteHtml = '<span style="color:var(--muted)">Select a node in the diagram below to remove it.</span>';
+        minColoring = new Array(poset.size).fill(-1);
+      } else {
+        if (minColoring) {
+          noteHtml = `<span style="color:var(--l2)">✓ Found A₃-free proper coloring</span> (removed node ${minRemovedNode})`;
+        } else {
+          if (poset.analysis && poset.analysis.isCustom) {
+            noteHtml = `<span style="color:#fb7185">This deletion still appears rainbow forcing.</span> No A₃-free proper coloring was found after removing node ${minRemovedNode}.`;
+          } else {
+            noteHtml = `<span style="color:#fb7185">⚠ Could not easily find an A₃-free coloring with ${poset.height} colors (removed node ${minRemovedNode}).</span>`;
+          }
+          minColoring = new Array(poset.size).fill(-1); // fallback
+        }
+      }
+
+      ctrl.innerHTML = `<div class="coloring-note" style="margin-left:0; font-size:11px;">${noteHtml}</div>`;
+
+      // Build highlighted nodes set from hovered triple
+      const hlNodes = highlightedTriple || null;
+
+      diagEl.innerHTML = '';
+      diagEl.appendChild(buildHasseSVG(poset, 560, 280, {
+        interactive: false,
+        coloring: minRemovedNode !== -1 ? minColoring : null,
+        highlightNodes: hlNodes,
+        fadedNodes: minRemovedNode !== -1 ? new Set([minRemovedNode]) : null,
+        onNodeClick: (ni) => {
+          minRemovedNode = ni;
+          if (poset.analysis && poset.analysis.isCustom && poset.analysis.removalWitnesses.has(ni)) {
+            minColoring = poset.analysis.removalWitnesses.get(ni).slice();
+          } else {
+            const coloringH = poset.coloringH || poset.height;
+            minColoring = findA3FreeColoring(poset.size, poset.comp_edges, coloringH, ni);
+            if (!minColoring) minColoring = findA3FreeColoring(poset.size, poset.comp_edges, coloringH + 1, ni);
+          }
+          highlightedTriple = null;
+          renderMinimalitySection();
+        }
+      }));
+
+      // Rainbow list for minimality
+      const list = document.getElementById('minimality-rainbow-list');
+      list.innerHTML = '';
+      const antichains3 = allAntichains3(poset.size, poset.comp_edges);
+
+      if (antichains3.length === 0) {
+        list.innerHTML = '<span style="font-size:10px;color:var(--muted)">No antichain of size 3 (width < 3)</span>';
+      } else {
+        antichains3.forEach(ac => {
+          const span = document.createElement('span');
+          // If a node is removed, an A3 is kept only if the removed node is not in it
+          const isKept = minRemovedNode === -1 || !ac.includes(minRemovedNode);
+          span.className = 'rainbow-triple';
+          if (!isKept && minRemovedNode !== -1) {
+            span.style.opacity = '0.3';
+            span.style.textDecoration = 'line-through';
+          }
+
+          const acColors = ac.map(v => minColoring && minColoring[v] >= 0 && isKept ? COLORING_PALETTE[minColoring[v] % COLORING_PALETTE.length] : '#555');
+          span.innerHTML = `{<span style="color:${acColors[0]}">${ac[0]}</span>,<span style="color:${acColors[1]}">${ac[1]}</span>,<span style="color:${acColors[2]}">${ac[2]}</span>}`;
+
+          // Hover to highlight nodes (only if they are kept)
+          if (isKept) {
+            span.addEventListener('mouseenter', () => {
+              highlightedTriple = ac;
+              renderMinimalitySection();
+            });
+            span.addEventListener('mouseleave', () => {
+              highlightedTriple = null;
+              renderMinimalitySection();
+            });
+          }
+
+          list.appendChild(span);
+        });
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      modalPoset = null;
+    }
+
+    // ── Init ──────────────────────────────────────────────────────
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-edit-builder-btn').addEventListener('click', () => {
+      closeModal();
+      openBuilder();
+    });
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeBuilder(); } });
+
+    // Tab switching
+    document.querySelectorAll('.modal-tab').forEach(btn => {
+      btn.addEventListener('click', e => {
+        document.querySelectorAll('.modal-tab').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + e.target.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── Builder ────────────────────────────────────────────────────
+    const BUILDER_W = 676;
+    const BUILDER_H = 390;
+    const BUILDER_R = 15;
+
+    let builderNodes = [];   // [{x, y}]  — index is the node label
+    let builderCovers = [];  // [[a, b]]  — a < b (a is covered by b)
+    let builderSelected = null;  // index of selected node (for edge drawing)
+    let builderDragNode = null;
+    let builderDragOffX = 0, builderDragOffY = 0;
+    let builderDragging = false;
+    let builderMouseDownPos = null;
+    let builderMouseX = BUILDER_W / 2;
+    let builderMouseY = BUILDER_H / 2;
+    let builderCycleWarning = false;
+    let builderMode = 'add';
+    let builderHistory = [];
+    let builderAnalysis = null;
+    const DRAG_THRESHOLD = 5;
+
+    function pushBuilderHistory() {
+      builderHistory.push({
+        nodes: builderNodes.map(n => ({ x: n.x, y: n.y })),
+        covers: builderCovers.map(([a, b]) => [a, b]),
+        selected: builderSelected,
+        mode: builderMode
+      });
+      if (builderHistory.length > 100) builderHistory.shift();
+    }
+
+    function recomputeBuilderAnalysis() {
+      const poset = builderToPoset();
+      builderAnalysis = poset ? analyzeCustomPoset(poset) : null;
+      return poset;
+    }
+
+    function markBuilderDirty() {
+      recomputeBuilderAnalysis();
+    }
+
+    function updateBuilderToolbar() {
+      document.querySelectorAll('[data-builder-mode]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.builderMode === builderMode);
+      });
+    }
+
+    function updateBuilderAnalysisDisplay() {
+      const el = document.getElementById('builder-analysis');
+      if (!el) return;
+      if (!builderAnalysis) {
+        const emptyEdgeList = builderCovers.length ? builderCovers.map(([a, b]) => `(${a},${b})`).join(', ') : '[]';
+        el.innerHTML = `<div class="builder-analysis-row"><span class="builder-badge neutral">No verdict yet</span></div><div>Start by adding nodes and covers. The rainbow-forcing and minimality verdict updates as the poset changes.</div><div class="builder-edge-list"><strong>edge list:</strong> ${escapeHtml(emptyEdgeList)}</div>`;
+        return;
+      }
+      const rfBadge = builderAnalysis.rainbowForcing
+        ? '<span class="builder-badge good">rainbow forcing</span>'
+        : '<span class="builder-badge bad">not rainbow forcing</span>';
+      const minBadge = builderAnalysis.rainbowForcing
+        ? (builderAnalysis.minimal
+          ? '<span class="builder-badge good">minimal</span>'
+          : '<span class="builder-badge bad">not minimal</span>')
+        : '<span class="builder-badge neutral">minimality not applicable</span>';
+      let detail = '';
+      if (!builderAnalysis.rainbowForcing) {
+        detail = 'A proper coloring with no rainbow A₃ was found for the current poset.';
+      } else if (builderAnalysis.minimal) {
+        detail = 'Every single-node deletion tested admits an A₃-free proper coloring, so the current poset is minimal.';
+      } else {
+        detail = `Deleting node${builderAnalysis.stubbornRemovals.length === 1 ? '' : 's'} ${builderAnalysis.stubbornRemovals.join(', ')} still looks rainbow forcing.`;
+      }
+      const edgeList = builderCovers.length ? builderCovers.map(([a, b]) => `(${a},${b})`).join(', ') : '[]';
+      el.innerHTML = `<div class="builder-analysis-row">${rfBadge}${minBadge}</div><div>${escapeHtml(detail)}</div><div class="builder-edge-list"><strong>edge list:</strong> ${escapeHtml(edgeList)}</div>`;
+    }
+
+    function builderComputeRanks() {
+      const n = builderNodes.length;
+      if (n === 0) return [];
+      const rank = new Array(n).fill(0);
+      const tempInDeg = new Array(n).fill(0);
+      const adjDown = Array.from({ length: n }, () => []);
+      builderCovers.forEach(([a, b]) => { adjDown[a].push(b); tempInDeg[b]++; });
+      const queue = [];
+      for (let i = 0; i < n; i++) if (tempInDeg[i] === 0) queue.push(i);
+      while (queue.length > 0) {
+        const u = queue.shift();
+        adjDown[u].forEach(v => {
+          rank[v] = Math.max(rank[v], rank[u] + 1);
+          if (--tempInDeg[v] === 0) queue.push(v);
+        });
+      }
+      return rank;
+    }
+
+    function builderHasCycleAdding(a, b) {
+      // Would adding edge a→b create a cycle? (i.e. can b already reach a?)
+      const n = builderNodes.length;
+      const adj = Array.from({ length: n }, () => []);
+      builderCovers.forEach(([u, v]) => adj[u].push(v));
+      const visited = new Set();
+      const stack = [b];
+      while (stack.length > 0) {
+        const u = stack.pop();
+        if (u === a) return true;
+        if (visited.has(u)) continue;
+        visited.add(u);
+        adj[u].forEach(v => stack.push(v));
+      }
+      return false;
+    }
+
+    function builderComputeWidth(n, compEdges) {
+      if (n === 0) return 0;
+      if (n === 1) return 1;
+      const comp = Array.from({ length: n }, () => new Array(n).fill(false));
+      compEdges.forEach(([u, v]) => { comp[u][v] = comp[v][u] = true; });
+      let maxW = 1;
+      for (let mask = 1; mask < (1 << n); mask++) {
+        const elems = [];
+        for (let i = 0; i < n; i++) if (mask & (1 << i)) elems.push(i);
+        let ok = true;
+        outer: for (let i = 0; i < elems.length; i++) {
+          for (let j = i + 1; j < elems.length; j++) {
+            if (comp[elems[i]][elems[j]]) { ok = false; break outer; }
+          }
+        }
+        if (ok && elems.length > maxW) maxW = elems.length;
+      }
+      return maxW;
+    }
+
+    function builderTransitiveClosure(n, covers) {
+      const reach = Array.from({ length: n }, (_, i) => {
+        const r = new Array(n).fill(false);
+        r[i] = true;
+        return r;
+      });
+      covers.forEach(([a, b]) => { reach[a][b] = true; });
+      for (let k = 0; k < n; k++)
+        for (let i = 0; i < n; i++)
+          if (reach[i][k])
+            for (let j = 0; j < n; j++)
+              if (reach[k][j]) reach[i][j] = true;
+      return reach;
+    }
+
+    function builderToPoset() {
+      const n = builderNodes.length;
+      if (n === 0) return null;
+
+      const ranks = builderComputeRanks();
+      const maxRank = n > 0 ? Math.max(...ranks) : 0;
+
+      // Compute proper Hasse covers (remove transitive shortcuts)
+      const reach = builderTransitiveClosure(n, builderCovers);
+      const hasseCovers = builderCovers.filter(([a, b]) => {
+        for (let c = 0; c < n; c++) {
+          if (c !== a && c !== b && reach[a][c] && reach[c][b]) return false;
+        }
+        return true;
+      });
+
+      // Build layers
+      const layers = [];
+      for (let r = 0; r <= maxRank; r++) layers.push([]);
+      for (let i = 0; i < n; i++) layers[ranks[i]].push(i);
+
+      // Comparability edges
+      const comp_edges = [];
+      for (let i = 0; i < n; i++)
+        for (let j = i + 1; j < n; j++)
+          if (reach[i][j] || reach[j][i]) comp_edges.push([i, j]);
+
+      // Connected components (via undirected Hasse cover graph)
+      const adjUnd = Array.from({ length: n }, () => []);
+      hasseCovers.forEach(([a, b]) => { adjUnd[a].push(b); adjUnd[b].push(a); });
+      const compOf = new Array(n).fill(-1);
+      let numComps = 0;
+      for (let i = 0; i < n; i++) {
+        if (compOf[i] !== -1) continue;
+        const queue = [i]; compOf[i] = numComps;
+        while (queue.length > 0) {
+          const u = queue.shift();
+          adjUnd[u].forEach(v => { if (compOf[v] === -1) { compOf[v] = numComps; queue.push(v); } });
+        }
+        numComps++;
+      }
+
+      const comp_layers = [];
+      for (let c = 0; c < numComps; c++) {
+        const compMaxRank = Math.max(...Array.from({ length: n }, (_, i) => compOf[i] === c ? ranks[i] : 0));
+        const cl = [];
+        for (let r = 0; r <= compMaxRank; r++)
+          cl.push(layers[r].filter(i => compOf[i] === c));
+        while (cl.length > 0 && cl[cl.length - 1].length === 0) cl.pop();
+        comp_layers.push(cl);
+      }
+
+      const width = n <= 20 ? builderComputeWidth(n, comp_edges) : '?';
+
+      return {
+        id: 'custom',
+        size: n,
+        height: maxRank + 1,
+        width,
+        layers,
+        comp_layers,
+        covers: hasseCovers,
+        comp_edges,
+        coloringH: n   // use n colors for minimality explorer (safe upper bound)
+      };
+    }
+
+    function getBuilderNodeAt(x, y) {
+      for (let i = builderNodes.length - 1; i >= 0; i--) {
+        const nd = builderNodes[i];
+        const dx = nd.x - x, dy = nd.y - y;
+        if (dx * dx + dy * dy <= (BUILDER_R + 4) * (BUILDER_R + 4)) return i;
+      }
+      return null;
+    }
+
+    function renderBuilderSVG() {
+      const svg = document.getElementById('builder-svg');
+      if (!svg) return;
+      const ns = 'http://www.w3.org/2000/svg';
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+      const n = builderNodes.length;
+      const ranks = builderComputeRanks();
+
+      // Stats
+      document.getElementById('builder-stat-nodes').textContent = n;
+      document.getElementById('builder-stat-covers').textContent = builderCovers.length;
+      if (n > 0) {
+        const maxRank = Math.max(...ranks);
+        document.getElementById('builder-stat-height').textContent = maxRank + 1;
+        if (n <= 20) {
+          const reach = builderTransitiveClosure(n, builderCovers);
+          const compEdges = [];
+          for (let i = 0; i < n; i++)
+            for (let j = i + 1; j < n; j++)
+              if (reach[i][j] || reach[j][i]) compEdges.push([i, j]);
+          document.getElementById('builder-stat-width').textContent = builderComputeWidth(n, compEdges);
+        } else {
+          document.getElementById('builder-stat-width').textContent = '?';
+        }
+      } else {
+        document.getElementById('builder-stat-height').textContent = '—';
+        document.getElementById('builder-stat-width').textContent = '—';
+      }
+
+      // Hint
+      const hintEl = document.getElementById('builder-selected-hint');
+      if (builderSelected !== null) {
+        hintEl.style.display = '';
+        hintEl.textContent = builderMode === 'cover'
+          ? `upper node ${builderSelected} selected — click a lower node`
+          : `node ${builderSelected} selected`;
+      } else {
+        hintEl.style.display = 'none';
+      }
+      document.getElementById('builder-cycle-warning').style.display = builderCycleWarning ? '' : 'none';
+      updateBuilderToolbar();
+
+      // Defs
+      const defs = document.createElementNS(ns, 'defs');
+      const maxRankDefs = n > 0 ? Math.max(...ranks) : 6;
+      for (let li = 0; li <= Math.max(maxRankDefs, 6); li++) {
+        const grad = document.createElementNS(ns, 'radialGradient');
+        grad.setAttribute('id', `bsg${li}`);
+        grad.setAttribute('cx', '50%'); grad.setAttribute('cy', '50%'); grad.setAttribute('r', '50%');
+        const s1 = document.createElementNS(ns, 'stop');
+        s1.setAttribute('offset', '0%'); s1.setAttribute('stop-color', layerColor(li)); s1.setAttribute('stop-opacity', '0.28');
+        const s2 = document.createElementNS(ns, 'stop');
+        s2.setAttribute('offset', '100%'); s2.setAttribute('stop-color', layerColor(li)); s2.setAttribute('stop-opacity', '0');
+        grad.appendChild(s1); grad.appendChild(s2);
+        defs.appendChild(grad);
+      }
+      svg.appendChild(defs);
+
+      // Ghost edge from selected node to mouse
+      if (builderSelected !== null && !builderDragging) {
+        const sn = builderNodes[builderSelected];
+        if (sn) {
+          const ghost = document.createElementNS(ns, 'line');
+          ghost.setAttribute('x1', sn.x); ghost.setAttribute('y1', sn.y);
+          ghost.setAttribute('x2', builderMouseX); ghost.setAttribute('y2', builderMouseY);
+          ghost.setAttribute('stroke', layerColor(ranks[builderSelected] || 0));
+          ghost.setAttribute('stroke-width', '1.5');
+          ghost.setAttribute('stroke-opacity', '0.35');
+          ghost.setAttribute('stroke-dasharray', '5 3');
+          ghost.style.pointerEvents = 'none';
+          svg.appendChild(ghost);
+        }
+      }
+
+      // Edges (covers)
+      builderCovers.forEach(([a, b]) => {
+        const na = builderNodes[a], nb = builderNodes[b];
+        if (!na || !nb) return;
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', na.x); line.setAttribute('y1', na.y);
+        line.setAttribute('x2', nb.x); line.setAttribute('y2', nb.y);
+        line.setAttribute('stroke', EDGE_COLOR);
+        line.setAttribute('stroke-width', '1.5');
+        line.setAttribute('stroke-opacity', '0.75');
+        svg.appendChild(line);
+      });
+
+      // Nodes
+      builderNodes.forEach((node, i) => {
+        const rank = ranks[i] || 0;
+        const col = layerColor(rank);
+        const isSel = i === builderSelected;
+
+        const g = document.createElementNS(ns, 'g');
+        g.style.cursor = 'pointer';
+
+        const glow = document.createElementNS(ns, 'circle');
+        glow.setAttribute('cx', node.x); glow.setAttribute('cy', node.y);
+        glow.setAttribute('r', BUILDER_R + 14);
+        glow.setAttribute('fill', `url(#bsg${rank})`);
+        glow.setAttribute('opacity', isSel ? '1' : '0');
+        g.appendChild(glow);
+
+        const circle = document.createElementNS(ns, 'circle');
+        circle.setAttribute('cx', node.x); circle.setAttribute('cy', node.y);
+        circle.setAttribute('r', isSel ? BUILDER_R + 2.5 : BUILDER_R);
+        circle.setAttribute('fill', '#08080c');
+        circle.setAttribute('stroke', col);
+        circle.setAttribute('stroke-width', isSel ? '2.5' : '1.5');
+        circle.style.transition = 'r 0.1s, stroke-width 0.1s';
+        g.appendChild(circle);
+
+        const text = document.createElementNS(ns, 'text');
+        text.setAttribute('x', node.x); text.setAttribute('y', node.y);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'central');
+        text.setAttribute('fill', col);
+        text.setAttribute('font-size', '11');
+        text.setAttribute('font-weight', '700');
+        text.setAttribute('font-family', "'JetBrains Mono',monospace");
+        text.style.pointerEvents = 'none'; text.style.userSelect = 'none';
+        text.textContent = i;
+        g.appendChild(text);
+
+        svg.appendChild(g);
+      });
+
+      // Empty state hint
+      if (n === 0) {
+        const hint = document.createElementNS(ns, 'text');
+        hint.setAttribute('x', BUILDER_W / 2);
+        hint.setAttribute('y', BUILDER_H / 2);
+        hint.setAttribute('text-anchor', 'middle');
+        hint.setAttribute('fill', '#3a3860');
+        hint.setAttribute('font-size', '13');
+        hint.setAttribute('font-family', "'JetBrains Mono',monospace");
+        hint.textContent = builderMode === 'add' ? 'click anywhere to add a node' : 'switch to add mode to place nodes';
+        hint.style.pointerEvents = 'none';
+        svg.appendChild(hint);
+      }
+
+      // Cursor: pointer over nodes, crosshair elsewhere
+      const hoverIdx = getBuilderNodeAt(builderMouseX, builderMouseY);
+      svg.style.cursor = builderMode === 'move' && hoverIdx !== null ? 'grab' : (hoverIdx !== null ? 'pointer' : 'crosshair');
+    }
+
+    function autoLayoutBuilder() {
+      const n = builderNodes.length;
+      if (n === 0) return;
+      pushBuilderHistory();
+      const posetBeforeLayout = builderToPoset();
+      if (posetBeforeLayout) {
+        builderCovers = posetBeforeLayout.covers.map(([a, b]) => [a, b]);
+      }
+      const ranks = builderComputeRanks();
+      const maxRank = Math.max(...ranks);
+      const padX = 56, padTop = 38, padBot = 38;
+      const usableW = BUILDER_W - 2 * padX;
+      const usableH = BUILDER_H - padTop - padBot;
+
+      for (let r = 0; r <= maxRank; r++) {
+        const inRank = builderNodes.filter((_, i) => ranks[i] === r);
+        const y = maxRank === 0
+          ? padTop + usableH / 2
+          : (BUILDER_H - padBot) - (r / maxRank) * usableH;
+        inRank.forEach((node, ji) => {
+          node.x = padX + (ji + 0.5) / inRank.length * usableW;
+          node.y = y;
+        });
+      }
+      recomputeBuilderAnalysis();
+      renderBuilderSVG();
+      updateBuilderAnalysisDisplay();
+    }
+
+    function openBuilder() {
+      builderCycleWarning = false;
+      document.getElementById('builder-overlay').classList.add('open');
+      recomputeBuilderAnalysis();
+      renderBuilderSVG();
+      updateBuilderAnalysisDisplay();
+    }
+
+    function closeBuilder() {
+      document.getElementById('builder-overlay').classList.remove('open');
+    }
+
+    function setupBuilderInteraction() {
+      const svg = document.getElementById('builder-svg');
+      if (!svg) return;
+
+      // Track mouse on SVG for ghost edge + cursor
+      svg.addEventListener('mousemove', (e) => {
+        const rect = svg.getBoundingClientRect();
+        builderMouseX = e.clientX - rect.left;
+        builderMouseY = e.clientY - rect.top;
+        if (!builderDragging && builderSelected !== null) {
+          renderBuilderSVG();
+        } else if (!builderDragging) {
+          // Update cursor
+          const hoverIdx = getBuilderNodeAt(builderMouseX, builderMouseY);
+          svg.style.cursor = builderMode === 'move' && hoverIdx !== null ? 'grab' : (hoverIdx !== null ? 'pointer' : 'crosshair');
+        }
+      });
+
+      svg.addEventListener('mouseleave', () => {
+        if (!builderDragging) { builderMouseX = -100; builderMouseY = -100; }
+      });
+
+      // Drag start
+      svg.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        if (builderMode !== 'move') return;
+        const rect = svg.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        builderMouseDownPos = { x, y };
+        builderDragging = false;
+        const idx = getBuilderNodeAt(x, y);
+        if (idx !== null) {
+          pushBuilderHistory();
+          builderDragNode = idx;
+          builderDragOffX = x - builderNodes[idx].x;
+          builderDragOffY = y - builderNodes[idx].y;
+          e.preventDefault();
+        } else {
+          builderDragNode = null;
+        }
+      });
+
+      // Drag move (document-level so it works when mouse leaves svg)
+      document.addEventListener('mousemove', (e) => {
+        if (builderDragNode === null) return;
+        const rect = svg.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        builderMouseX = x; builderMouseY = y;
+        const dx = x - builderMouseDownPos.x, dy = y - builderMouseDownPos.y;
+        if (!builderDragging && (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD)) {
+          builderDragging = true;
+        }
+        if (builderDragging) {
+          builderNodes[builderDragNode].x = Math.max(BUILDER_R, Math.min(BUILDER_W - BUILDER_R, x - builderDragOffX));
+          builderNodes[builderDragNode].y = Math.max(BUILDER_R, Math.min(BUILDER_H - BUILDER_R, y - builderDragOffY));
+          renderBuilderSVG();
+        }
+      });
+
+      document.addEventListener('mouseup', () => {
+        builderDragNode = null;
+        // dragging flag reset in click handler
+      });
+
+      // Click: add node or toggle edge
+      svg.addEventListener('click', (e) => {
+        if (builderDragging) {
+          builderDragging = false;
+          return;
+        }
+        builderDragging = false;
+        builderCycleWarning = false;
+
+        const rect = svg.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const nodeIdx = getBuilderNodeAt(x, y);
+
+        if (builderMode === 'add') {
+          if (nodeIdx === null) {
+            pushBuilderHistory();
+            builderNodes.push({ x, y });
+            builderSelected = null;
+            markBuilderDirty();
+            updateBuilderAnalysisDisplay();
+          } else {
+            builderSelected = nodeIdx;
+          }
+        } else if (builderMode === 'cover') {
+          if (nodeIdx !== null) {
+            if (builderSelected === null) {
+              builderSelected = nodeIdx;
+            } else if (builderSelected === nodeIdx) {
+              builderSelected = null;
+            } else {
+              const upper = builderSelected, lower = nodeIdx;
+              pushBuilderHistory();
+              const existingIdx = builderCovers.findIndex(([u, v]) =>
+                (u === lower && v === upper) || (u === upper && v === lower));
+              if (existingIdx >= 0) {
+                builderCovers.splice(existingIdx, 1);
+              } else if (builderHasCycleAdding(lower, upper)) {
+                builderCycleWarning = true;
+              } else {
+                builderCovers.push([lower, upper]);
+              }
+              builderSelected = null;
+              markBuilderDirty();
+              updateBuilderAnalysisDisplay();
+            }
+          } else {
+            builderSelected = null;
+          }
+        } else if (builderMode === 'move') {
+          if (nodeIdx !== null) {
+            builderSelected = nodeIdx;
+          } else {
+            builderSelected = null;
+          }
+        } else if (nodeIdx !== null) {
+          if (builderSelected === null) {
+            builderSelected = nodeIdx;
+          } else if (builderSelected === nodeIdx) {
+            builderSelected = null;
+          } else {
+            const a = builderSelected, b = nodeIdx;
+            const existingIdx = builderCovers.findIndex(([u, v]) =>
+              (u === a && v === b) || (u === b && v === a));
+            if (existingIdx >= 0) {
+              builderCovers.splice(existingIdx, 1);
+            } else {
+              if (builderHasCycleAdding(a, b)) {
+                builderCycleWarning = true;
+              } else {
+                builderCovers.push([a, b]);
+              }
+            }
+            builderSelected = null;
+            markBuilderDirty();
+            updateBuilderAnalysisDisplay();
+          }
+        }
+        renderBuilderSVG();
+      });
+
+      // Double-click: delete node
+      svg.addEventListener('dblclick', (e) => {
+        const rect = svg.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const idx = getBuilderNodeAt(x, y);
+        if (idx !== null) {
+          pushBuilderHistory();
+          builderNodes.splice(idx, 1);
+          builderCovers = builderCovers
+            .filter(([a, b]) => a !== idx && b !== idx)
+            .map(([a, b]) => [a > idx ? a - 1 : a, b > idx ? b - 1 : b]);
+          if (builderSelected === idx) builderSelected = null;
+          else if (builderSelected !== null && builderSelected > idx) builderSelected--;
+          markBuilderDirty();
+          updateBuilderAnalysisDisplay();
+          renderBuilderSVG();
+        }
+        e.preventDefault();
+      });
+    }
+
+    function initBuilder() {
+      document.getElementById('builder-close').addEventListener('click', closeBuilder);
+      document.getElementById('builder-overlay').addEventListener('click', e => {
+        if (e.target === document.getElementById('builder-overlay')) closeBuilder();
+      });
+      document.querySelectorAll('[data-builder-mode]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          builderMode = btn.dataset.builderMode;
+          builderSelected = null;
+          renderBuilderSVG();
+        });
+      });
+      document.getElementById('builder-auto-layout-btn').addEventListener('click', autoLayoutBuilder);
+      document.getElementById('builder-clear-btn').addEventListener('click', () => {
+        pushBuilderHistory();
+        builderNodes = []; builderCovers = [];
+        builderSelected = null; builderCycleWarning = false; builderAnalysis = null;
+        updateBuilderAnalysisDisplay();
+        renderBuilderSVG();
+      });
+      document.getElementById('builder-delete-btn').addEventListener('click', () => {
+        if (builderSelected === null) return;
+        pushBuilderHistory();
+        const idx = builderSelected;
+        builderNodes.splice(idx, 1);
+        builderCovers = builderCovers
+          .filter(([a, b]) => a !== idx && b !== idx)
+          .map(([a, b]) => [a > idx ? a - 1 : a, b > idx ? b - 1 : b]);
+        builderSelected = null;
+        markBuilderDirty();
+        updateBuilderAnalysisDisplay();
+        renderBuilderSVG();
+      });
+      document.getElementById('builder-undo-btn').addEventListener('click', () => {
+        const prev = builderHistory.pop();
+        if (!prev) return;
+        builderNodes = prev.nodes.map(n => ({ x: n.x, y: n.y }));
+        builderCovers = prev.covers.map(([a, b]) => [a, b]);
+        builderSelected = prev.selected;
+        builderMode = prev.mode;
+        builderCycleWarning = false;
+        markBuilderDirty();
+        updateBuilderAnalysisDisplay();
+        renderBuilderSVG();
+      });
+      document.getElementById('builder-analyze-btn').addEventListener('click', () => {
+        const poset = recomputeBuilderAnalysis();
+        if (!poset) return;
+        poset.analysis = builderAnalysis;
+        updateBuilderAnalysisDisplay();
+        closeBuilder();
+        openModal(poset);
+      });
+      setupBuilderInteraction();
+    }
+
+    buildFilters();
+    buildGrid();
+    initBuilder();
+  </script>
+</body>
+
+</html>
